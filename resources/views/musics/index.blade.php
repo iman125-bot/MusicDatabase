@@ -23,21 +23,16 @@
         <tbody>
             @foreach($musics as $music)
             <tr>
-                <td>{{ $music['title'] }}</td>
-                <td>{{ $music['artist'] }}</td>
-                <td>{{ $music['album'] ?? '-' }}</td>
-                <td>{{ $music['year'] ?? '-' }}</td>
+                <td>{{ $music->title }}</td>  <!-- Perhatikan -> bukan [''] -->
+                <td>{{ $music->artist }}</td>
+                <td>{{ $music->album ?? '-' }}</td>
+                <td>{{ $music->year ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('musics.show', $music['id']) }}" class="btn btn-info">View</a>
-                    <a href="{{ route('musics.edit', $music['id']) }}" class="btn btn-warning">Edit</a>
-                    <form action="{{ route('musics.destroy', $music['id']) }}" method="POST" style="display:inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <a href="{{ route('musics.show', $music->id) }}" class="btn btn-info">View</a>
+                    <!-- ... -->
                 </td>
             </tr>
             @endforeach
         </tbody>
-    </table>
+        </table>
 @endsection

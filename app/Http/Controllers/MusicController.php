@@ -2,49 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Music;
 use Illuminate\Http\Request;
+use App\Models\Music;
 
 class MusicController extends Controller
 {
     public function index()
     {
         $musics = Music::all();
-        return view('music.index', compact('musics'));
+        return view('musics.index', compact('musics'));
     }
 
     public function create()
     {
-        return view('music.create');
+        return view('musics.create');
     }
 
     public function store(Request $request)
     {
-        $music = Music::create($request->all());
-        return redirect()->route('music.index')->with('success', 'Music added!');
-    }
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'artist' => 'required|string|max:255',
+            'album' => 'nullable|string|max:255',
+            'year' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'genre' => 'nullable|string|max:100',
+            'duration' => 'nullable|string|max:8',
+        ]);
 
-    public function show($id)
-    {
-        $music = Music::find($id);
-        return view('music.show', compact('music'));
+        Music::create($request->all());
+
+        return redirect()->route('musics.index')
+            ->with('success', 'Music created successfully.');
     }
 
     public function edit($id)
     {
         $music = Music::find($id);
-        return view('music.edit', compact('music'));
+        if (!$music) {
+            return redirect()->route('musics.index')
+                ->with('error', 'Music not found.');
+        }
+
+        return view('musics.edit', compact('music'));
     }
+
+    public function show($id)
+    {
+    $music = Music::find($id);
+    if (!$music) {
+        return redirect()->route('musics.index')
+            ->with('error', 'Music not found.');
+    }
+
+    return view('musics.show', compact('music'));
+    }
+
 
     public function update(Request $request, $id)
     {
-        Music::update($id, $request->all());
-        return redirect()->route('music.index')->with('success', 'Music updated!');
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'artist' => 'required|string|max:255',
+            'album' => 'nullable|string|max:255',
+            'year' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'genre' => 'nullable|string|max:100',
+            'duration' => 'nullable|string|max:8',
+        ]);
+
+        $music = Music::find($id);
+        if (!$music) {
+            return redirect()->route('musics.index')
+                ->with('error', 'Music not found.');
+        }
+
+        $music->update($request->all());
+
+        return redirect()->route('musics.index')
+            ->with('success', 'Music updated successfully.');
     }
 
     public function destroy($id)
     {
-        Music::delete($id);
-        return redirect()->route('music.index')->with('success', 'Music deleted!');
+        $music = Music::find($id);
+        if (!$music) {
+            return redirect()->route('musics.index')
+                ->with('error', 'Music not found.');
+        }
+
+        $music->delete();
+
+        return redirect()->route('musics.index')
+            ->with('success', 'Music deleted successfully.');
     }
 }
