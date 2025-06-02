@@ -21,7 +21,7 @@
             <input type="text" name="genre" class="form-control" value="{{ $music['genre'] ?? old('genre') }}">
         </div>
         <div class="mb-3">
-            <label class="form-label">Duration (HH:MM:SS)</label>
+            <label class="form-label">Duration (MM:SS)</label>
             <input type="text" name="duration" class="form-control" value="{{ $music['duration'] ?? old('duration') }}" placeholder="00:03:45">
         </div>
     </div>
