@@ -254,6 +254,8 @@
     }
 </style>
 
+
+
 <div class="hero-section">
     <h1 class="hero-title">🎵 Music Collection</h1>
     <p class="hero-subtitle">Discover and manage your favorite tracks</p>

@@ -35,26 +35,22 @@ class MusicController extends Controller
             ->with('success', 'Music created successfully.');
     }
 
-    public function edit($id)
+        public function edit($id)
     {
-        $music = Music::find($id);
-        if (!$music) {
+        try {
+            $music = Music::findOrFail($id);
+            return view('musics.edit', compact('music'));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->route('musics.index')
                 ->with('error', 'Music not found.');
         }
-
-        return view('musics.edit', compact('music'));
     }
 
-    public function show($id)
+        public function show($id)
     {
-    $music = Music::find($id);
-    if (!$music) {
-        return redirect()->route('musics.index')
-            ->with('error', 'Music not found.');
-    }
+        $music = Music::findOrFail($id);
 
-    return view('musics.show', compact('music'));
+        return view('musics.show', compact('music'));
     }
 
 
