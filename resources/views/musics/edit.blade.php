@@ -327,13 +327,12 @@
 <div class="music-notes">♫</div>
 <div class="music-notes">♪</div>
 
-<div class="container">
+<div class="container" style="position:relative;">
+    <a href="{{ route('musics.index') }}" class="back-btn" style="position:absolute;left:0;top:0;margin:24px 0 0 0;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 20px;border-radius:25px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.3s;font-weight:500;z-index:2;"><i class="fa fa-arrow-left"></i> Back to Collection</a>
     <div class="page-header">
         <h1 class="page-title">✏️ Edit Music</h1>
         <p class="page-subtitle">Update your music information</p>
     </div>
-
-    <a href="{{ route('musics.index') }}" class="back-btn" style="background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 20px;border-radius:25px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.3s;margin-bottom:2rem;"><i class="fa fa-arrow-left"></i> Back to Collection</a>
 
     <div class="form-container">
         <form action="{{ route('musics.update', $music->id) }}" method="POST" enctype="multipart/form-data">
@@ -352,8 +351,8 @@
                 <input type="text" id="album" name="album" class="form-control" value="{{ old('album', $music->album) }}" required>
             </div>
             <div class="form-group">
-                <label for="release_date" class="form-label">Release Date</label>
-                <input type="date" id="release_date" name="release_date" class="form-control" value="{{ $music->release_date }}" required>
+                <label for="duration" class="form-label">Duration</label>
+                <input type="text" id="duration" name="duration" class="form-control" value="{{ old('duration', $music->duration) }}" placeholder="03:45" required>
             </div>
             <div class="form-group">
                 <label for="genre" class="form-label">Genre</label>

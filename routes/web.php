@@ -14,7 +14,13 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('home');
+    }
+    return redirect()->route('login');
+});
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
 
 // Route dengan proteksi auth
 Route::middleware('auth')->group(function () {

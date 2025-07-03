@@ -93,6 +93,16 @@
         </nav>
     @endif
     <main>
+        @if (session('error'))
+            <div style="background:#ff4d4f;color:white;padding:12px 20px;border-radius:8px;margin:20px auto;max-width:600px;box-shadow:0 2px 8px rgba(0,0,0,0.15);font-weight:500;">
+                <i class="fa fa-exclamation-circle" style="margin-right:8px;"></i> {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div style="background:#1db954;color:white;padding:12px 20px;border-radius:8px;margin:20px auto;max-width:600px;box-shadow:0 2px 8px rgba(0,0,0,0.15);font-weight:500;">
+                <i class="fa fa-check-circle" style="margin-right:8px;"></i> {{ session('success') }}
+            </div>
+        @endif
         @yield('content')
     </main>
     <div id="audio-player-bar" style="display:none;">
