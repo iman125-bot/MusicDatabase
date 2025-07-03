@@ -2,351 +2,210 @@
 
 @section('content')
 <style>
-    body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    .page-header {
-        text-align: center;
-        margin-bottom: 2rem;
-        color: white;
-    }
-    
-    .page-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        background: linear-gradient(45deg, #fff, #f0f8ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    .page-subtitle {
-        font-size: 1.1rem;
-        opacity: 0.9;
-        margin-bottom: 1rem;
-    }
-    
-    .back-btn {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        margin-bottom: 2rem;
-    }
-    
-    .back-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-        color: white;
-    }
-    
-    .form-container {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 2rem;
-        max-width: 600px;
-        margin: 0 auto;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-    
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-    
-    .form-label {
-        display: block;
-        color: white;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        font-size: 1rem;
-    }
-    
-    .form-control {
-        width: 100%;
-        padding: 12px 16px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        color: white;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-    }
-    
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.6);
-    }
-    
-    .form-control:focus {
-        outline: none;
-        border-color: rgba(255, 255, 255, 0.5);
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .input-icon {
-        position: relative;
-    }
-    
-    .input-icon .form-control {
-        padding-left: 45px;
-    }
-    
-    .input-icon::before {
-        content: attr(data-icon);
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1.2rem;
-        z-index: 10;
-    }
-    
-    .btn-save {
-        background: linear-gradient(45deg, #ff6b6b, #feca57);
-        border: none;
-        color: white;
-        padding: 14px 30px;
-        border-radius: 25px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-    
-    .btn-save:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
-    }
-    
-    .alert {
-        background: rgba(239, 68, 68, 0.2);
-        border: 1px solid rgba(239, 68, 68, 0.4);
-        color: white;
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 1.5rem;
-        backdrop-filter: blur(10px);
-    }
-    
-    .alert ul {
-        margin: 0;
-        padding-left: 1.5rem;
-    }
-    
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
-    
-    .duration-helper {
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.7);
-        margin-top: 0.3rem;
-    }
-    
-    @media (max-width: 768px) {
-        .form-container {
-            margin: 0 1rem;
-            padding: 1.5rem;
-        }
-        
-        .form-row {
-            grid-template-columns: 1fr;
-        }
-        
-        .page-title {
-            font-size: 2rem;
-        }
-    }
-    
-    .floating-elements {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-    }
-    
-    .floating-note {
-        position: absolute;
-        color: rgba(255, 255, 255, 0.1);
-        font-size: 2rem;
-        animation: float 6s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(5deg); }
-    }
+.add-music-card {
+  max-width: 420px;
+  margin: 3.5rem auto 2.5rem auto;
+  background: var(--card-bg-light);
+  color: var(--text-light);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(30,185,84,0.13);
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  transition: background 0.3s, color 0.3s;
+}
+body.dark .add-music-card {
+  background: var(--card-bg-dark);
+  color: var(--text-dark);
+}
+.add-music-card label {
+  font-weight: 500;
+  font-size: 0.98rem;
+  margin-bottom: 0.18rem;
+  margin-top: 0.5rem;
+  display: block;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+.add-music-card input[type="text"],
+.add-music-card input[type="number"],
+.add-music-card input[type="file"] {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 7px;
+  border: 1.2px solid #bbb;
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+  background: rgba(255,255,255,0.13);
+  color: inherit;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+body.dark .add-music-card input {
+  background: rgba(30,30,30,0.13);
+  color: #fff;
+}
+.add-music-card input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+.add-music-card button[type="submit"] {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1.2rem;
+  margin-bottom: 0.2rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 12px rgba(30,185,84,0.13);
+  display: block;
+}
+.add-music-card button[type="submit"]:hover {
+  background: #14833b;
+  transform: translateY(-2px) scale(1.03);
+}
+.add-music-card .preview-img {
+  display: block;
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 10px;
+  margin: 0.7rem auto 0.2rem auto;
+  box-shadow: 0 2px 8px rgba(30,185,84,0.13);
+}
+.add-music-card .form-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.7rem;
+  letter-spacing: 2px;
+  text-align: center;
+}
+.add-music-card .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-bottom: 0.2rem;
+}
+.add-music-card select {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 7px;
+  border: 1.2px solid #bbb;
+  font-size: 1rem;
+  background: #181818 !important;
+  color: #fff !important;
+  transition: border 0.2s;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.add-music-card select option {
+  background: #181818;
+  color: #fff;
+}
+.add-music-card select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
 </style>
-
-<div class="floating-elements">
-    <div class="floating-note" style="top: 10%; left: 10%; animation-delay: 0s;">🎵</div>
-    <div class="floating-note" style="top: 20%; right: 15%; animation-delay: 1s;">🎶</div>
-    <div class="floating-note" style="bottom: 30%; left: 5%; animation-delay: 2s;">🎼</div>
-    <div class="floating-note" style="bottom: 10%; right: 10%; animation-delay: 3s;">🎤</div>
+<div class="add-music-card">
+  <div class="form-title">Add New Music</div>
+  @if ($errors->any())
+    <div style="color:#c00;background:#fee;padding:0.7rem 1rem;border-radius:8px;">
+      <strong>Please fix the following errors:</strong>
+      <ul style="margin:0.5rem 0 0 1.2rem;">
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+  <form action="{{ route('musics.store') }}" method="POST" id="musicForm" enctype="multipart/form-data">
+    @csrf
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" name="title" value="{{ old('title') }}" required>
+    </div>
+    <div class="form-group">
+      <label>Artist</label>
+      <input type="text" name="artist" value="{{ old('artist') }}" required>
+    </div>
+    <div class="form-group">
+      <label>Album</label>
+      <input type="text" name="album" value="{{ old('album') }}">
+    </div>
+    <div class="form-group">
+      <label>Year</label>
+      <input type="number" name="year" value="{{ old('year') }}">
+    </div>
+    <div class="form-group">
+      <label>Genre</label>
+      <select name="genre" id="genre-select" onchange="toggleGenreInput(this)" style="width:100%;padding:0.6rem 0.9rem;border-radius:7px;border:1.2px solid #bbb;font-size:1rem;background:rgba(255,255,255,0.13);color:inherit;">
+        <option value="">-- Pilih Genre --</option>
+        <option value="Pop" {{ old('genre')=='Pop' ? 'selected' : '' }}>Pop</option>
+        <option value="Rock" {{ old('genre')=='Rock' ? 'selected' : '' }}>Rock</option>
+        <option value="Jazz" {{ old('genre')=='Jazz' ? 'selected' : '' }}>Jazz</option>
+        <option value="Hip-Hop" {{ old('genre')=='Hip-Hop' ? 'selected' : '' }}>Hip-Hop</option>
+        <option value="EDM" {{ old('genre')=='EDM' ? 'selected' : '' }}>EDM</option>
+        <option value="R&B" {{ old('genre')=='R&B' ? 'selected' : '' }}>R&B</option>
+        <option value="Dangdut" {{ old('genre')=='Dangdut' ? 'selected' : '' }}>Dangdut</option>
+        <option value="K-Pop" {{ old('genre')=='K-Pop' ? 'selected' : '' }}>K-Pop</option>
+        <option value="Electropop" {{ old('genre')=='Electropop' ? 'selected' : '' }}>Electropop</option>
+        <option value="Lainnya" {{ old('genre') && !in_array(old('genre'), ['Pop','Rock','Jazz','Hip-Hop','EDM','R&B','Dangdut','K-Pop']) ? 'selected' : '' }}>Lainnya</option>
+      </select>
+      <input type="text" name="genre" id="genre-input" placeholder="Genre lain..." style="display:none;margin-top:0.3rem;" value="{{ old('genre') && !in_array(old('genre'), ['Pop','Rock','Jazz','Hip-Hop','EDM','R&B','Dangdut','K-Pop']) ? old('genre') : '' }}">
+    </div>
+    <div class="form-group">
+      <label>Duration (MM:SS)</label>
+      <input type="text" name="duration" value="{{ old('duration') }}" placeholder="00:03:45">
+    </div>
+    <div class="form-group">
+      <label>Cover Image</label>
+      <input type="file" name="cover_image" accept="image/*" onchange="previewCover(event)">
+      <img id="cover-preview" class="preview-img" style="display:none;"/>
+    </div>
+    <div class="form-group">
+      <label>Music File</label>
+      <input type="file" name="music_file" accept="audio/mp3,audio/wav">
+    </div>
+    <button type="submit">Save Music</button>
+  </form>
 </div>
-
-<a href="{{ route('musics.index') }}" class="back-btn">
-    ⬅️ Back to Collection
-</a>
-
-<div class="page-header">
-    <h1 class="page-title">🎵 Add New Music</h1>
-    <p class="page-subtitle">Add your favorite track to the collection</p>
-</div>
-
-<div class="form-container">
-    @if ($errors->any())
-        <div class="alert">
-            <strong>⚠️ Please fix the following errors:</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('musics.store') }}" method="POST" id="musicForm">
-        @csrf
-        
-        <div class="form-group">
-            <label class="form-label">🎵 Title *</label>
-            <div class="input-icon" data-icon="🎵">
-                <input type="text" name="title" class="form-control" 
-                       value="{{ old('title') }}" 
-                       placeholder="Enter song title" 
-                       required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">👤 Artist *</label>
-            <div class="input-icon" data-icon="👤">
-                <input type="text" name="artist" class="form-control" 
-                       value="{{ old('artist') }}" 
-                       placeholder="Enter artist name" 
-                       required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">💿 Album</label>
-            <div class="input-icon" data-icon="💿">
-                <input type="text" name="album" class="form-control" 
-                       value="{{ old('album') }}" 
-                       placeholder="Enter album name (optional)">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label class="form-label">📅 Year</label>
-                <div class="input-icon" data-icon="📅">
-                    <input type="number" name="year" class="form-control" 
-                           value="{{ old('year') }}" 
-                           placeholder="2024" 
-                           min="1900" 
-                           max="{{ date('Y') }}">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">🎭 Genre</label>
-                <div class="input-icon" data-icon="🎭">
-                    <input type="text" name="genre" class="form-control" 
-                           value="{{ old('genre') }}" 
-                           placeholder="Rock, Pop, Jazz...">
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">⏱️ Duration</label>
-            <div class="input-icon" data-icon="⏱️">
-                <input type="text" name="duration" class="form-control" 
-                       value="{{ old('duration') }}" 
-                       placeholder="03:45" 
-                       pattern="^([0-9]{1,2}:)?[0-5]?[0-9]:[0-5][0-9]$">
-            </div>
-            <div class="duration-helper">
-                Format: MM:SS or HH:MM:SS (e.g., 03:45 or 01:23:45)
-            </div>
-        </div>
-
-        <button type="submit" class="btn-save">
-            💾 Save Music
-        </button>
-    </form>
-</div>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('musicForm');
-    const inputs = form.querySelectorAll('.form-control');
-    
-    // Add focus effects
-    inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.style.transform = 'scale(1.02)';
-        });
-        
-        input.addEventListener('blur', function() {
-            this.parentElement.style.transform = 'scale(1)';
-        });
-    });
-    
-    // Duration input validation
-    const durationInput = document.querySelector('input[name="duration"]');
-    durationInput.addEventListener('input', function() {
-        let value = this.value.replace(/[^0-9:]/g, '');
-        
-        // Auto-format duration
-        if (value.length === 2 && !value.includes(':')) {
-            value += ':';
-        } else if (value.length === 4 && value.split(':').length === 2) {
-            const parts = value.split(':');
-            if (parseInt(parts[1]) >= 60) {
-                parts[1] = '59';
-                value = parts.join(':');
-            }
-        }
-        
-        this.value = value;
-    });
-    
-    // Form submission animation
-    form.addEventListener('submit', function() {
-        const submitBtn = this.querySelector('.btn-save');
-        submitBtn.innerHTML = '⏳ Saving...';
-        submitBtn.style.background = 'linear-gradient(45deg, #6c757d, #adb5bd)';
-    });
+function previewCover(event) {
+  const img = document.getElementById('cover-preview');
+  const file = event.target.files[0];
+  if(file) {
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+}
+function toggleGenreInput(sel) {
+  const input = document.getElementById('genre-input');
+  if(sel.value === 'Lainnya') {
+    input.style.display = 'block';
+    input.required = true;
+    input.name = 'genre';
+    sel.name = '';
+  } else {
+    input.style.display = 'none';
+    input.required = false;
+    input.name = '';
+    sel.name = 'genre';
+  }
+}
+// On page load, show input if needed
+window.addEventListener('DOMContentLoaded', function() {
+  const sel = document.getElementById('genre-select');
+  if(sel.value === 'Lainnya') toggleGenreInput(sel);
 });
 </script>
-
 @endsection

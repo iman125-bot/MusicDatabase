@@ -19,7 +19,9 @@ class Music extends Model
         'album',
         'year',
         'genre',
-        'duration'
+        'duration',
+        'cover_image',
+        'file_path'
     ];
 
     // Hapus semua method static jika menggunakan database

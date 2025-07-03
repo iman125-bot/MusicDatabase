@@ -9,7 +9,9 @@ class MusicController extends Controller
 {
     public function index()
     {
-        $musics = Music::all();
+        $musics = Music::all()->groupBy(function($item) {
+            return $item->genre ? ucfirst($item->genre) : 'Unknown Genre';
+        })->sortKeys();
         return view('musics.index', compact('musics'));
     }
 
@@ -27,15 +29,29 @@ class MusicController extends Controller
             'year' => 'nullable|integer|min:1900|max:' . date('Y'),
             'genre' => 'nullable|string|max:100',
             'duration' => 'nullable|string|max:8',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'music_file' => 'nullable|file|mimes:mp3,wav|max:20480',
         ]);
 
-        Music::create($request->all());
+        $data = $request->all();
+        if ($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image');
+            $coverPath = $file->store('covers', 'public');
+            $data['cover_image'] = $coverPath;
+        }
+        if ($request->hasFile('music_file')) {
+            $file = $request->file('music_file');
+            $musicPath = $file->store('musics', 'public');
+            $data['file_path'] = $musicPath;
+        }
+
+        Music::create($data);
 
         return redirect()->route('musics.index')
             ->with('success', 'Music created successfully.');
     }
 
-        public function edit($id)
+    public function edit($id)
     {
         try {
             $music = Music::findOrFail($id);
@@ -46,13 +62,12 @@ class MusicController extends Controller
         }
     }
 
-        public function show($id)
+    public function show($id)
     {
         $music = Music::findOrFail($id);
 
         return view('musics.show', compact('music'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -63,6 +78,8 @@ class MusicController extends Controller
             'year' => 'nullable|integer|min:1900|max:' . date('Y'),
             'genre' => 'nullable|string|max:100',
             'duration' => 'nullable|string|max:8',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'music_file' => 'nullable|file|mimes:mp3,wav|max:20480',
         ]);
 
         $music = Music::find($id);
@@ -71,7 +88,27 @@ class MusicController extends Controller
                 ->with('error', 'Music not found.');
         }
 
-        $music->update($request->all());
+        $data = $request->all();
+        if ($request->hasFile('cover_image')) {
+            // Hapus cover lama jika ada
+            if ($music->cover_image && \Storage::disk('public')->exists($music->cover_image)) {
+                \Storage::disk('public')->delete($music->cover_image);
+            }
+            $file = $request->file('cover_image');
+            $coverPath = $file->store('covers', 'public');
+            $data['cover_image'] = $coverPath;
+        }
+        if ($request->hasFile('music_file')) {
+            // Hapus file musik lama jika ada
+            if ($music->file_path && \Storage::disk('public')->exists($music->file_path)) {
+                \Storage::disk('public')->delete($music->file_path);
+            }
+            $file = $request->file('music_file');
+            $musicPath = $file->store('musics', 'public');
+            $data['file_path'] = $musicPath;
+        }
+
+        $music->update($data);
 
         return redirect()->route('musics.index')
             ->with('success', 'Music updated successfully.');

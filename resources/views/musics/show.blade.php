@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    body {
+        body {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -256,7 +256,6 @@
         }
     }
 </style>
-
 <div class="floating-notes">
     <div class="floating-note" style="top: 5%; left: 5%; animation-delay: 0s;">🎵</div>
     <div class="floating-note" style="top: 15%; right: 10%; animation-delay: 1s;">🎶</div>
@@ -272,9 +271,13 @@
 
 <div class="music-hero">
     <div class="wave-animation"></div>
-    <div class="album-art">
-        🎵
-    </div>
+    @if($music->cover_image)
+        <div style="text-align:center;margin-bottom:1.2rem;">
+            <img src="{{ asset('storage/' . $music->cover_image) }}" alt="cover" style="max-width:220px;width:100%;border-radius:14px;box-shadow:0 2px 12px rgba(30,185,84,0.13);">
+        </div>
+    @else
+        <div class="album-art">🎵</div>
+    @endif
     <h1 class="song-title">{{ $music->title }}</h1>
     <p class="song-artist">by {{ $music->artist }}</p>
 </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MusicController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
 // Route Login
 Route::get('/upload', [ImageController::class, 'create'])->name('upload.form');
@@ -12,6 +13,8 @@ Route::delete('/upload/{id}', [ImageController::class, 'destroy'])->name('upload
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route dengan proteksi auth
 Route::middleware('auth')->group(function () {

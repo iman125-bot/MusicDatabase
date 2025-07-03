@@ -333,64 +333,46 @@
         <p class="page-subtitle">Update your music information</p>
     </div>
 
+    <a href="{{ route('musics.index') }}" class="back-btn" style="background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 20px;border-radius:25px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.3s;margin-bottom:2rem;"><i class="fa fa-arrow-left"></i> Back to Collection</a>
+
     <div class="form-container">
-        <form action="{{ route('musics.update', $music->id) }}" method="POST">
+        <form action="{{ route('musics.update', $music->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <strong>⚠️ Please fix the following errors:</strong>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            
             <div class="form-group">
-                <label class="form-label" for="title">Title</label>
-                <input type="text" class="form-control" id="title" name="title" 
-                       value="{{ old('title', $music->title) }}" 
-                       placeholder="Enter music title" required>
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" name="title" class="form-control" value="{{ old('title', $music->title) }}" required>
             </div>
-            
             <div class="form-group">
-                <label class="form-label" for="artist">Artist</label>
-                <input type="text" class="form-control" id="artist" name="artist" 
-                       value="{{ old('artist', $music->artist) }}" 
-                       placeholder="Enter artist name" required>
+                <label for="artist" class="form-label">Artist</label>
+                <input type="text" id="artist" name="artist" class="form-control" value="{{ old('artist', $music->artist) }}" required>
             </div>
-            
             <div class="form-group">
-                <label class="form-label" for="album">Album</label>
-                <input type="text" class="form-control" id="album" name="album" 
-                       value="{{ old('album', $music->album) }}" 
-                       placeholder="Enter album name">
+                <label for="album" class="form-label">Album</label>
+                <input type="text" id="album" name="album" class="form-control" value="{{ old('album', $music->album) }}" required>
             </div>
-            
             <div class="form-group">
-                <label class="form-label" for="year">Year</label>
-                <input type="number" class="form-control" id="year" name="year" 
-                       value="{{ old('year', $music->year) }}" 
-                       placeholder="Enter release year" min="1900" max="{{ date('Y') }}">
+                <label for="release_date" class="form-label">Release Date</label>
+                <input type="date" id="release_date" name="release_date" class="form-control" value="{{ $music->release_date }}" required>
             </div>
-            
             <div class="form-group">
-                <label class="form-label" for="genre">Genre</label>
-                <input type="text" class="form-control" id="genre" name="genre" 
-                       value="{{ old('genre', $music->genre) }}" 
-                       placeholder="Enter music genre">
+                <label for="genre" class="form-label">Genre</label>
+                <input type="text" id="genre" name="genre" class="form-control" value="{{ old('genre', $music->genre) }}" required>
             </div>
-            
             <div class="form-group">
-                <label class="form-label" for="duration">Duration (HH:MM:SS)</label>
-                <input type="text" class="form-control" id="duration" name="duration" 
-                       value="{{ old('duration', $music->duration) }}" 
-                       placeholder="00:00:00" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}">
+                <label for="cover_image" class="form-label">Cover Image</label>
+                <input type="file" id="cover_image" name="cover_image" class="form-control" accept="image/*">
+                @if($music->cover_image)
+                    <div><img src="{{ asset('storage/' . $music->cover_image) }}" alt="cover" style="max-width:100px;"></div>
+                @endif
             </div>
-            
+            <div class="form-group">
+                <label for="music_file" class="form-label">Music File</label>
+                <input type="file" id="music_file" name="music_file" class="form-control" accept="audio/mp3,audio/wav">
+                @if($music->file_path)
+                    <div><audio controls src="{{ asset('storage/' . $music->file_path) }}" style="width:100px;"></audio></div>
+                @endif
+            </div>
             <button type="submit" class="btn-update">
                 🎵 Update Music
             </button>
